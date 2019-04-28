@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -97,7 +99,7 @@ public class GameController : MonoBehaviour
 
             m_OWinnerImage.SetActive(true);
 
-            m_rematchButton.gameObject.SetActive(true);
+            ShowRematchButton();
         }
 
         if (line == WinnerLine.None)
@@ -111,11 +113,17 @@ public class GameController : MonoBehaviour
 
                 m_XWinnerImage.SetActive(true);
 
-                m_rematchButton.gameObject.SetActive(true);
+                ShowRematchButton();
             }
         }
 
         DrawWinner(line);
+    }
+
+    private async Task ShowRematchButton()
+    {
+        await Task.Delay(1000);
+        m_rematchButton.gameObject.SetActive(true);
     }
 
     private void DrawWinner(WinnerLine line)
