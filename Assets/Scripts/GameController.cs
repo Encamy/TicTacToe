@@ -27,6 +27,9 @@ public class GameController : MonoBehaviour
     public GameObject m_XWinnerImage;
     public GameObject m_OWinnerImage;
 
+    public int m_turnCount;
+    public Text m_WinnerText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,6 +64,9 @@ public class GameController : MonoBehaviour
 
         m_XWinnerImage.SetActive(false);
         m_OWinnerImage.SetActive(false);
+        m_WinnerText.text = "Победитель!";
+
+        m_turnCount = 0;
     }
 
     public void TicTacToeButtonClick(int index)
@@ -75,6 +81,7 @@ public class GameController : MonoBehaviour
         m_turnIcons[0].SetActive(m_currentPlayer == Player.OPlayer);
         m_turnIcons[1].SetActive(m_currentPlayer == Player.XPlayer);
 
+        m_turnCount++;
         CheckWinner();
     }
 
@@ -99,7 +106,7 @@ public class GameController : MonoBehaviour
 
             m_OWinnerImage.SetActive(true);
 
-            ShowRematchButton();
+            ShowRematchButton(false);
         }
 
         if (line == WinnerLine.None)
@@ -113,17 +120,26 @@ public class GameController : MonoBehaviour
 
                 m_XWinnerImage.SetActive(true);
 
-                ShowRematchButton();
+                ShowRematchButton(false);
             }
         }
 
+        if (line == WinnerLine.None && m_turnCount >= 9)
+        {
+            ShowRematchButton(true);
+        }
+        
         DrawWinner(line);
     }
 
-    private async Task ShowRematchButton()
+    private async Task ShowRematchButton(bool tie)
     {
         await Task.Delay(1000);
         m_rematchButton.gameObject.SetActive(true);
+        if (tie)
+        {
+            m_WinnerText.text = "Ничья!";
+        }
     }
 
     private void DrawWinner(WinnerLine line)
