@@ -1597,6 +1597,7 @@ MonoBehaviour:
   m_rematchButton: {fileID: 1387625360}
   m_XWinnerImage: {fileID: 2063232704}
   m_OWinnerImage: {fileID: 1501753566}
+  m_turnCount: 0
   m_WinnerText: {fileID: 700296239}
 --- !u!4 &1116832759
 Transform:
@@ -1816,7 +1817,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.72156864}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
