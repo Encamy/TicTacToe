@@ -31,6 +31,14 @@ public class GameController : MonoBehaviour
     public int m_turnCount;
     public Text m_WinnerText;
 
+    private EnemyMode m_enemymode;
+
+    // PvE region
+    private Player m_AIplayer = Player.None;
+    public GameObject m_XPlayer;
+    public GameObject m_OPlayer;
+    public GameObject m_YouPlayAs;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,7 +54,7 @@ public class GameController : MonoBehaviour
     void GameSetup()
     {
         m_random = new System.Random();
-        m_currentPlayer = (m_random.Next() % 2 == 0) ? Player.OPlayer : Player.XPlayer;
+        m_currentPlayer = Player.XPlayer;
         m_turnIcons[0].SetActive(m_currentPlayer == Player.OPlayer);
         m_turnIcons[1].SetActive(m_currentPlayer == Player.XPlayer);
 
@@ -70,6 +78,8 @@ public class GameController : MonoBehaviour
         m_turnCount = 0;
 
         GlobalStorage storage = GlobalStorage.GetInstance();
+        m_enemymode = storage.GetEnemyMode();
+
         switch (storage.GetEnemyMode())
         {
             case EnemyMode.PvP:
@@ -79,10 +89,46 @@ public class GameController : MonoBehaviour
                 Debug.Log("Player vs AI");
                 break;
         }
+
+        if (m_enemymode == EnemyMode.PvE)
+        {
+            m_AIplayer = (m_random.Next() % 2 == 0) ? Player.OPlayer : Player.XPlayer;
+            if (m_AIplayer == Player.XPlayer)
+            {
+                m_XPlayer.SetActive(false);
+                m_OPlayer.SetActive(true);
+                m_YouPlayAs.SetActive(true);
+            }
+            else
+            {
+                m_OPlayer.SetActive(false);
+                m_XPlayer.SetActive(true);
+                m_YouPlayAs.SetActive(true);
+            }
+        }
+        else if (m_enemymode == EnemyMode.PvP)
+        {
+            m_OPlayer.SetActive(false);
+            m_XPlayer.SetActive(false);
+            m_YouPlayAs.SetActive(false);
+        }
     }
 
     public void TicTacToeButtonClick(int index)
     {
+        TicTacToeButtonClick(index, false);
+    }
+
+    public void TicTacToeButtonClick(int index, bool force)
+    {
+        if (m_enemymode == EnemyMode.PvE)
+        {
+            if (m_currentPlayer == m_AIplayer && !force)
+            {
+                return;
+            }
+        }
+
         m_tictactoeSpaces[index].image.sprite = (m_currentPlayer == Player.XPlayer) ? m_XPlayerIcon : m_OPlayerIcon;
         m_tictactoeSpaces[index].interactable = false;
 
@@ -95,6 +141,16 @@ public class GameController : MonoBehaviour
 
         m_turnCount++;
         CheckWinner();
+
+        if (m_enemymode == EnemyMode.PvE)
+        {
+            CalculateAIMove();
+        }
+    }
+
+    private void CalculateAIMove()
+    {
+        throw new NotImplementedException();
     }
 
     public void RematchButtonClick()

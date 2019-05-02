@@ -8,7 +8,7 @@ public class GlobalStorage
 {
     private static GlobalStorage m_instance;
     private GameMode m_gamemode;
-    private EnemyMode m_enemymode;
+    private EnemyMode m_enemymode = EnemyMode.PvP;
 
     public static GlobalStorage GetInstance()
     {
