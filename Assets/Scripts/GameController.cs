@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using static MainMenu;
 
 public class GameController : MonoBehaviour
 {
@@ -67,6 +68,17 @@ public class GameController : MonoBehaviour
         m_WinnerText.text = "Победитель!";
 
         m_turnCount = 0;
+
+        GlobalStorage storage = GlobalStorage.GetInstance();
+        switch (storage.GetEnemyMode())
+        {
+            case EnemyMode.PvP:
+                Debug.Log("Player vs Player");
+                break;
+            case EnemyMode.PvE:
+                Debug.Log("Player vs AI");
+                break;
+        }
     }
 
     public void TicTacToeButtonClick(int index)
