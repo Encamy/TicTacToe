@@ -8,7 +8,7 @@ public class GlobalStorage
 {
     private static GlobalStorage m_instance;
     private GameMode m_gamemode;
-    private EnemyMode m_enemymode = EnemyMode.PvP;
+    private EnemyMode m_enemymode = EnemyMode.PvE;
 
     public static GlobalStorage GetInstance()
     {
@@ -43,5 +43,11 @@ public class GlobalStorage
     public EnemyMode GetEnemyMode()
     {
         return m_enemymode;
+    }
+
+    public enum AI_Algorithm
+    {
+        MINIMAX,
+        ALPHA_BETA_PRUNING,
     }
 }

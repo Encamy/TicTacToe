@@ -93,6 +93,7 @@ public class GameController : MonoBehaviour
         if (m_enemymode == EnemyMode.PvE)
         {
             m_AIplayer = (m_random.Next() % 2 == 0) ? Player.OPlayer : Player.XPlayer;
+            m_AIplayer = Player.OPlayer;
             if (m_AIplayer == Player.XPlayer)
             {
                 m_XPlayer.SetActive(false);
@@ -142,7 +143,7 @@ public class GameController : MonoBehaviour
         m_turnCount++;
         CheckWinner();
 
-        if (m_enemymode == EnemyMode.PvE)
+        if (m_enemymode == EnemyMode.PvE && m_currentPlayer == m_AIplayer)
         {
             CalculateAIMove();
         }
@@ -150,7 +151,9 @@ public class GameController : MonoBehaviour
 
     private void CalculateAIMove()
     {
-        throw new NotImplementedException();
+        MiniMaxSolver miniMaxSolver = new MiniMaxSolver();
+        int move = miniMaxSolver.GetNextMove(m_cells, m_AIplayer);
+        TicTacToeButtonClick(move, true);
     }
 
     public void RematchButtonClick()
