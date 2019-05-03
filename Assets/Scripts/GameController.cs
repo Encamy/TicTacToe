@@ -117,9 +117,14 @@ public class GameController : MonoBehaviour
 
     private void MakeFirstAiMove()
     {
-        if (GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.MINIMAX)
+        if (GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.MINIMAX ||
+            GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.MINIMAX_SHORTEST_WAY)
         {
             TicTacToeButtonClick(4, true);
+        }
+        else
+        {
+            CalculateAIMove();
         }
     }
 
@@ -159,12 +164,25 @@ public class GameController : MonoBehaviour
 
     private void CalculateAIMove()
     {
+        TicTacToeSolver solver = null;
+
         if (GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.MINIMAX)
         {
-            MiniMaxSolver miniMaxSolver = new MiniMaxSolver();
-            int move = miniMaxSolver.GetNextMove(m_cells, m_AIplayer);
-            TicTacToeButtonClick(move, true);
+            solver = new MiniMaxSolver();
         }
+        else if (GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.MINIMAX_SHORTEST_WAY)
+        {
+            solver = new MiniMaxShortestSolver();
+        }
+
+        if (solver == null)
+        {
+            Debug.LogError("Invalid AI solver");
+            return;
+        }
+
+        int move = solver.GetNextMove(m_cells, m_AIplayer);
+        TicTacToeButtonClick(move, true);
     }
 
     public void RematchButtonClick()

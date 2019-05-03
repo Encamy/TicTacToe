@@ -6,6 +6,9 @@ using static GameController;
 
 public abstract class TicTacToeSolver
 {
+    protected readonly int WinValue = 10;
+    protected readonly int LoseValue = -10;
+    protected readonly int DrawValue = 2;
     abstract public int GetNextMove(Player[] ticTacToeSpaces, Player AI_player);
 
     public static bool IsTerminal(Player[] board, out Player winningPlayer)

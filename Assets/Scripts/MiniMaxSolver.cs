@@ -7,10 +7,6 @@ using System.Linq;
 
 public class MiniMaxSolver : TicTacToeSolver
 {
-    private readonly int WinValue = 10;
-    private readonly int LoseValue = -10;
-    private readonly int DrawValue = 2;
-
     public override int GetNextMove(Player[] ticTacToeSpaces, Player AI_player)
     {
         int[] indexes = new int[9];
@@ -35,7 +31,7 @@ public class MiniMaxSolver : TicTacToeSolver
     {
         if (IsTerminal(board, out Player winner))
         {
-           return CalculateValue(winner, AI_player);
+           return CalculateValue(winner, AI_player, depth);
         }
 
         if (isMaximizing)
@@ -92,7 +88,7 @@ public class MiniMaxSolver : TicTacToeSolver
         return moves;
     }
 
-    private int CalculateValue(Player winner, Player AI_player)
+    protected virtual int CalculateValue(Player winner, Player AI_player, int depth)
     {
         if (winner == AI_player)
         {

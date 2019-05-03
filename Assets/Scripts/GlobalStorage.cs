@@ -9,7 +9,7 @@ public class GlobalStorage
     private static GlobalStorage m_instance;
     private GameMode m_gamemode;
     private EnemyMode m_enemymode = EnemyMode.PvE;
-    private AI_Algorithm m_ai_algorithm = AI_Algorithm.MINIMAX;
+    private AI_Algorithm m_ai_algorithm = AI_Algorithm.MINIMAX_SHORTEST_WAY;
 
     public static GlobalStorage GetInstance()
     {
@@ -54,6 +54,7 @@ public class GlobalStorage
     public enum AI_Algorithm
     {
         MINIMAX,
+        MINIMAX_SHORTEST_WAY,
         ALPHA_BETA_PRUNING,
     }
 }
