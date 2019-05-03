@@ -93,12 +93,12 @@ public class GameController : MonoBehaviour
         if (m_enemymode == EnemyMode.PvE)
         {
             m_AIplayer = (m_random.Next() % 2 == 0) ? Player.OPlayer : Player.XPlayer;
-            m_AIplayer = Player.OPlayer;
             if (m_AIplayer == Player.XPlayer)
             {
                 m_XPlayer.SetActive(false);
                 m_OPlayer.SetActive(true);
                 m_YouPlayAs.SetActive(true);
+                MakeFirstAiMove();
             }
             else
             {
@@ -112,6 +112,14 @@ public class GameController : MonoBehaviour
             m_OPlayer.SetActive(false);
             m_XPlayer.SetActive(false);
             m_YouPlayAs.SetActive(false);
+        }
+    }
+
+    private void MakeFirstAiMove()
+    {
+        if (GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.MINIMAX)
+        {
+            TicTacToeButtonClick(4, true);
         }
     }
 
@@ -151,9 +159,12 @@ public class GameController : MonoBehaviour
 
     private void CalculateAIMove()
     {
-        MiniMaxSolver miniMaxSolver = new MiniMaxSolver();
-        int move = miniMaxSolver.GetNextMove(m_cells, m_AIplayer);
-        TicTacToeButtonClick(move, true);
+        if (GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.MINIMAX)
+        {
+            MiniMaxSolver miniMaxSolver = new MiniMaxSolver();
+            int move = miniMaxSolver.GetNextMove(m_cells, m_AIplayer);
+            TicTacToeButtonClick(move, true);
+        }
     }
 
     public void RematchButtonClick()
