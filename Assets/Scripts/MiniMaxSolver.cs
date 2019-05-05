@@ -4,12 +4,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GameController;
 using System.Linq;
+using static MainMenu;
 
 public class MiniMaxSolver : TicTacToeSolver
 {
-    public override int GetNextMove(Player[] ticTacToeSpaces, Player AI_player)
+    private int m_fieldSize = 9;
+    public override int GetNextMove(Player[] ticTacToeSpaces, Player AI_player, GameMode gamemode)
     {
-        int[] indexes = new int[9];
+        switch (gamemode)
+        {
+            case GameMode.GameMode3x3:
+                m_fieldSize = 9;
+                break;
+            case GameMode.GameMode5x5:
+                m_fieldSize = 25;
+                break;
+            case GameMode.GameMode7x7:
+                throw new NotImplementedException();
+        }
+
+        int[] indexes = new int[m_fieldSize];
         List<Player[]> availableMoves = GetAvailableMoves(ticTacToeSpaces, AI_player, ref indexes);
 
         double bestValue = -1;
@@ -38,7 +52,7 @@ public class MiniMaxSolver : TicTacToeSolver
         {
             double bestVal = double.NegativeInfinity;
 
-            int[] indexes = new int[9];
+            int[] indexes = new int[m_fieldSize];
             List<Player[]> availableMoves = GetAvailableMoves(board, AI_player, ref indexes);
 
             foreach (Player[] currentBoard in availableMoves)
@@ -53,7 +67,7 @@ public class MiniMaxSolver : TicTacToeSolver
         {
             double bestVal = double.PositiveInfinity;
 
-            int[] indexes = new int[9];
+            int[] indexes = new int[m_fieldSize];
             List<Player[]> availableMoves = GetAvailableMoves(board, (AI_player == Player.XPlayer) ? Player.OPlayer : Player.XPlayer, ref indexes);
 
             foreach (Player[] currentBoard in availableMoves)
@@ -71,11 +85,11 @@ public class MiniMaxSolver : TicTacToeSolver
         List<Player[]> moves = new List<Player[]>();
         int currentSuccessMove = 0;
 
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < m_fieldSize; i++)
         {
             if (board[i] == Player.None)
             {
-                Player[] movesElement = new Player[9];
+                Player[] movesElement = new Player[m_fieldSize];
                 board.CopyTo(movesElement, 0);
                 movesElement[i] = AI_player;
                 moves.Add(movesElement);

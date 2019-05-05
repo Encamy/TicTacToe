@@ -32,6 +32,7 @@ public class GameController : MonoBehaviour
     public Text m_WinnerText;
 
     private EnemyMode m_enemymode;
+    private GameMode m_gameMode;
 
     // PvE region
     private Player m_AIplayer = Player.None;
@@ -53,12 +54,27 @@ public class GameController : MonoBehaviour
 
     void GameSetup()
     {
+        GlobalStorage storage = GlobalStorage.GetInstance();
+        m_enemymode = storage.GetEnemyMode();
+        m_gameMode = storage.GetGameMode();
+
         m_random = new System.Random();
         m_currentPlayer = Player.XPlayer;
         m_turnIcons[0].SetActive(m_currentPlayer == Player.OPlayer);
         m_turnIcons[1].SetActive(m_currentPlayer == Player.XPlayer);
 
-        m_cells = new Player[9];
+        switch (m_gameMode)
+        {
+            case GameMode.GameMode3x3:
+                m_cells = new Player[9];
+                break;
+            case GameMode.GameMode5x5:
+                m_cells = new Player[25];
+                break;
+            case GameMode.GameMode7x7:
+                throw new NotImplementedException();
+        }
+
         for (int i = 0; i < m_cells.Length; i++)
         {
             m_cells[i] = Player.None;
@@ -76,9 +92,6 @@ public class GameController : MonoBehaviour
         m_WinnerText.text = "Победитель!";
 
         m_turnCount = 0;
-
-        GlobalStorage storage = GlobalStorage.GetInstance();
-        m_enemymode = storage.GetEnemyMode();
 
         switch (storage.GetEnemyMode())
         {
@@ -181,7 +194,7 @@ public class GameController : MonoBehaviour
             return;
         }
 
-        int move = solver.GetNextMove(m_cells, m_AIplayer);
+        int move = solver.GetNextMove(m_cells, m_AIplayer, m_gameMode);
         TicTacToeButtonClick(move, true);
     }
 
@@ -197,39 +210,34 @@ public class GameController : MonoBehaviour
 
     public void CheckWinner()
     {
-        WinnerLine line = CheckSpecificWinner(Player.OPlayer);
+        //WinnerLine line = CheckSpecificWinner(Player.OPlayer);
+        bool isTerminal = TicTacToeSolver.IsTerminal(m_cells, out Player winner, m_gameMode);
 
-        if (line != WinnerLine.None)
+        if (isTerminal)
         {
-            m_OPlayerScore++;
-            m_OPlayerScoreText.text = m_OPlayerScore.ToString();
-
-            m_OWinnerImage.SetActive(true);
-
-            ShowRematchButton(false);
-        }
-
-        if (line == WinnerLine.None)
-        {
-            line = CheckSpecificWinner(Player.XPlayer);
-
-            if (line != WinnerLine.None)
+            if (winner == Player.XPlayer)
             {
                 m_XPlayerScore++;
                 m_XPlayerScoreText.text = m_XPlayerScore.ToString();
 
                 m_XWinnerImage.SetActive(true);
-
                 ShowRematchButton(false);
             }
-        }
+            else if (winner == Player.OPlayer)
+            {
+                m_OPlayerScore++;
+                m_OPlayerScoreText.text = m_OPlayerScore.ToString();
 
-        if (line == WinnerLine.None && m_turnCount >= 9)
-        {
-            ShowRematchButton(true);
+                m_OWinnerImage.SetActive(true);
+                ShowRematchButton(false);
+            }
+            else
+            {
+                ShowRematchButton(true);
+            }
         }
         
-        DrawWinner(line);
+        //DrawWinner(line);
     }
 
     private async Task ShowRematchButton(bool tie)

@@ -91,6 +91,7 @@ public class MainMenu : MonoBehaviour
     {
         GameMode3x3,
         GameMode7x7,
+        GameMode5x5,
     }
 
     public enum EnemyMode

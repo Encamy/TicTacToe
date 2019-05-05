@@ -7,9 +7,9 @@ using static MainMenu;
 public class GlobalStorage
 {
     private static GlobalStorage m_instance;
-    private GameMode m_gamemode;
+    private GameMode m_gamemode = GameMode.GameMode5x5;
     private EnemyMode m_enemymode = EnemyMode.PvE;
-    private AI_Algorithm m_ai_algorithm = AI_Algorithm.MINIMAX_SHORTEST_WAY;
+    private AI_Algorithm m_ai_algorithm = AI_Algorithm.MINIMAX;
 
     public static GlobalStorage GetInstance()
     {
