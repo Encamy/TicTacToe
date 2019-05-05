@@ -5,7 +5,7 @@ using static GameController;
 namespace SolverTests
 {
     [TestClass]
-    public class MiniMaxSolverTests
+    public class SolverTests_3x3
     {
         [TestMethod]
         public void IsTerminal_Test01()
