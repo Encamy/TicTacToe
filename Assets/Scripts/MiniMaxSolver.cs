@@ -17,10 +17,8 @@ public class MiniMaxSolver : TicTacToeSolver
                 m_fieldSize = 9;
                 break;
             case GameMode.GameMode5x5:
-                m_fieldSize = 25;
-                break;
             case GameMode.GameMode7x7:
-                throw new NotImplementedException();
+                throw new ApplicationException("Can not use MiniMax algorithm for field that larger than 3x3");
         }
 
         int[] indexes = new int[m_fieldSize];

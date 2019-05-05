@@ -187,6 +187,10 @@ public class GameController : MonoBehaviour
         {
             solver = new MiniMaxShortestSolver();
         }
+        else if (GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.ALPHA_BETA_PRUNING)
+        {
+            solver = new AlphaBetaPruningSolver();
+        }
 
         if (solver == null)
         {

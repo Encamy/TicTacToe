@@ -3,18 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 using static GameController;
 using static MainMenu;
 
 public abstract class TicTacToeSolver
 {
-    protected readonly int WinValue = 10;
-    protected readonly int LoseValue = -10;
+    protected readonly int WinValue = 50;
+    protected readonly int LoseValue = -50;
     protected readonly int DrawValue = 2;
     abstract public int GetNextMove(Player[] ticTacToeSpaces, Player AI_player, GameMode gamemode);
 
     public static bool IsTerminal(Player[] board, out Player winningPlayer)
     {
+        Assert.AreEqual(board.Length, 9);
+
         //check rows
         HashSet<Player> line = new HashSet<Player>();
         for (int i = 0; i < 9; i += 3)
@@ -74,6 +77,8 @@ public abstract class TicTacToeSolver
         }
         else if (gamemode == GameMode.GameMode5x5)
         {
+            Assert.AreEqual(board.Length, 25);
+            
             HashSet<Player> line = new HashSet<Player>();
             // check horizontal
             for (int horizontalIndex = 0; horizontalIndex < 5; horizontalIndex++)
