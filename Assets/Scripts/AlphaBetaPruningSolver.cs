@@ -107,19 +107,68 @@ public class AlphaBetaPruningSolver : TicTacToeSolver
     protected List<Player[]> GetAvailableMoves(Player[] board, Player AI_player, ref int[] choosenIndex)
     {
         List<Player[]> moves = new List<Player[]>();
-        int currentSuccessMove = 0;
-
-        for (int i = 0; i < m_fieldSize; i++)
+        if (m_gamemode == GameMode.GameMode3x3)
         {
-            if (board[i] == Player.None)
-            {
-                Player[] movesElement = new Player[m_fieldSize];
-                board.CopyTo(movesElement, 0);
-                movesElement[i] = AI_player;
-                moves.Add(movesElement);
+            int currentSuccessMove = 0;
 
-                choosenIndex[currentSuccessMove] = i;
-                currentSuccessMove++;
+            for (int i = 0; i < m_fieldSize; i++)
+            {
+                if (board[i] == Player.None)
+                {
+                    Player[] movesElement = new Player[m_fieldSize];
+                    board.CopyTo(movesElement, 0);
+                    movesElement[i] = AI_player;
+                    moves.Add(movesElement);
+
+                    choosenIndex[currentSuccessMove] = i;
+                    currentSuccessMove++;
+                }
+            }
+        }
+        else
+        {
+            int d = 0; // current direction; 0=RIGHT, 1=DOWN, 2=LEFT, 3=UP
+            int c = 0; // counter
+            int s = 1; // chain size
+
+            int size = (int)Math.Round(Math.Sqrt(board.Length));
+
+            // starting point
+            int x = ((int)Math.Floor(size / 2.0));
+            int y = ((int)Math.Floor(size / 2.0));
+
+            int currentSuccessMove = 0;
+
+            for (int k = 1; k <= (size - 1); k++)
+            {
+                for (int j = 0; j < (k < (size - 1) ? 2 : 3); j++)
+                {
+                    for (int i = 0; i < s; i++)
+                    {
+                        if (board[x * size + y] == Player.None)
+                        {
+                            Player[] movesElement = new Player[m_fieldSize];
+                            board.CopyTo(movesElement, 0);
+                            movesElement[x * size + y] = AI_player;
+                            moves.Add(movesElement);
+
+                            choosenIndex[currentSuccessMove] = x * size + y;
+                            currentSuccessMove++;
+                        }
+
+                        c++;
+
+                        switch (d)
+                        {
+                            case 0: y += 1; break;
+                            case 1: x += 1; break;
+                            case 2: y -= 1; break;
+                            case 3: x -= 1; break;
+                        }
+                    }
+                    d = (d + 1) % 4;
+                }
+                s++;
             }
         }
 
