@@ -179,11 +179,6 @@ public class GameController : MonoBehaviour
             }
         }
 
-        if (force)
-        {
-            Debug.Log("Choosing index " + index);
-        }
-
         m_tictactoeSpaces[index].image.sprite = (m_currentPlayer == Player.XPlayer) ? m_XPlayerIcon : m_OPlayerIcon;
         m_tictactoeSpaces[index].interactable = false;
 

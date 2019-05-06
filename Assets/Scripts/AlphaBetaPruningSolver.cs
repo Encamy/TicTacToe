@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using static GameController;
 using static MainMenu;
 
@@ -45,6 +46,21 @@ public class AlphaBetaPruningSolver : TicTacToeSolver
             {
                 break;
             }
+        }
+
+        if (move == -1)
+        {
+            List<int> freeIndexes = new List<int>();
+            for (int i = 0; i < ticTacToeSpaces.Length; i++)
+            {
+                if (ticTacToeSpaces[i] == Player.None)
+                {
+                    freeIndexes.Add(i);
+                }
+            }
+
+            Debug.Log("No suitable move was found. Choosing random one");
+            return freeIndexes[new System.Random().Next(freeIndexes.Count - 1)];
         }
 
         return move;
