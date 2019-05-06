@@ -7,9 +7,9 @@ using static MainMenu;
 
 public class AlphaBetaPruningSolver : TicTacToeSolver
 {
-    private int m_fieldSize = 9;
-    private GameMode m_gamemode;
-    private int m_maxDepthIterations = 4; // -1 no limitations
+    protected int m_fieldSize = 9;
+    protected GameMode m_gamemode;
+    protected int m_maxDepthIterations = 4; // -1 no limitations
 
     public override int GetNextMove(Player[] ticTacToeSpaces, Player AI_player, GameMode gamemode)
     {
@@ -30,7 +30,7 @@ public class AlphaBetaPruningSolver : TicTacToeSolver
         int[] indexes = new int[m_fieldSize];
         List<Player[]> availableMoves = GetAvailableMoves(ticTacToeSpaces, AI_player, ref indexes);
 
-        double bestValue = -1;
+        double bestValue = LoseValue * 2;
         int move = -1;
         for (int i = 0; i < availableMoves.Count(); i++)
         {
@@ -50,7 +50,7 @@ public class AlphaBetaPruningSolver : TicTacToeSolver
         return move;
     }
 
-    private double alphabeta(Player[] board, int depth, bool isMaximizing, Player AI_player, double alpha, double beta)
+    protected virtual double alphabeta(Player[] board, int depth, bool isMaximizing, Player AI_player, double alpha, double beta)
     {
         if (IsTerminal(board, out Player winner, m_gamemode))
         {
@@ -104,7 +104,7 @@ public class AlphaBetaPruningSolver : TicTacToeSolver
         }
     }
 
-    private List<Player[]> GetAvailableMoves(Player[] board, Player AI_player, ref int[] choosenIndex)
+    protected List<Player[]> GetAvailableMoves(Player[] board, Player AI_player, ref int[] choosenIndex)
     {
         List<Player[]> moves = new List<Player[]>();
         int currentSuccessMove = 0;

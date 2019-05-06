@@ -200,5 +200,26 @@ namespace SolverTests
             Assert.AreEqual(expected, actual);
             Assert.AreEqual(expectedWinner, actualWinner);
         }
+
+        [TestMethod]
+        public void IsTerminal_Test10()
+        {
+            Player[] board = new Player[25]
+            {
+                Player.XPlayer, Player.XPlayer, Player.OPlayer, Player.XPlayer, Player.OPlayer,
+                Player.XPlayer, Player.OPlayer, Player.XPlayer, Player.OPlayer, Player.XPlayer,
+                Player.XPlayer, Player.OPlayer, Player.None,    Player.None,    Player.None,
+                Player.None,    Player.OPlayer, Player.None,    Player.None,    Player.None,
+                Player.None,    Player.OPlayer, Player.None,    Player.None,    Player.None
+            };
+
+            bool expected = true;
+            Player expectedWinner = Player.OPlayer;
+
+            bool actual = TicTacToeSolver.IsTerminal(board, out Player actualWinner, MainMenu.GameMode.GameMode5x5);
+
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expectedWinner, actualWinner);
+        }
     }
 }

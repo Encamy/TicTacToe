@@ -40,6 +40,8 @@ public class GameController : MonoBehaviour
     public GameObject m_OPlayer;
     public GameObject m_YouPlayAs;
 
+    private TicTacToeSolver m_solver;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -105,6 +107,27 @@ public class GameController : MonoBehaviour
 
         if (m_enemymode == EnemyMode.PvE)
         {
+            if (GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.MINIMAX)
+            {
+                m_solver = new MiniMaxSolver();
+            }
+            else if (GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.MINIMAX_SHORTEST_WAY)
+            {
+                m_solver = new MiniMaxShortestSolver();
+            }
+            else if (GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.ALPHA_BETA_PRUNING)
+            {
+                m_solver = new AlphaBetaPruningSolver();
+            }
+            else if (GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.ALPHA_BETA_PRUNING_TRANSPOSITION_TABLE)
+            {
+                m_solver = new AlphaBetaPruningTranspositionSolver(m_cells.Length);
+            }
+            else
+            {
+                Debug.LogError("Invalid AI solver");
+            }
+
             m_AIplayer = (m_random.Next() % 2 == 0) ? Player.OPlayer : Player.XPlayer;
             if (m_AIplayer == Player.XPlayer)
             {
@@ -156,6 +179,11 @@ public class GameController : MonoBehaviour
             }
         }
 
+        if (force)
+        {
+            Debug.Log("Choosing index " + index);
+        }
+
         m_tictactoeSpaces[index].image.sprite = (m_currentPlayer == Player.XPlayer) ? m_XPlayerIcon : m_OPlayerIcon;
         m_tictactoeSpaces[index].interactable = false;
 
@@ -177,28 +205,7 @@ public class GameController : MonoBehaviour
 
     private void CalculateAIMove()
     {
-        TicTacToeSolver solver = null;
-
-        if (GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.MINIMAX)
-        {
-            solver = new MiniMaxSolver();
-        }
-        else if (GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.MINIMAX_SHORTEST_WAY)
-        {
-            solver = new MiniMaxShortestSolver();
-        }
-        else if (GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.ALPHA_BETA_PRUNING)
-        {
-            solver = new AlphaBetaPruningSolver();
-        }
-
-        if (solver == null)
-        {
-            Debug.LogError("Invalid AI solver");
-            return;
-        }
-
-        int move = solver.GetNextMove(m_cells, m_AIplayer, m_gameMode);
+        int move = m_solver.GetNextMove(m_cells, m_AIplayer, m_gameMode);
         TicTacToeButtonClick(move, true);
     }
 

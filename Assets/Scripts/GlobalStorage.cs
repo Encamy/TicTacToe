@@ -9,7 +9,7 @@ public class GlobalStorage
     private static GlobalStorage m_instance;
     private GameMode m_gamemode = GameMode.GameMode5x5;
     private EnemyMode m_enemymode = EnemyMode.PvE;
-    private AI_Algorithm m_ai_algorithm = AI_Algorithm.ALPHA_BETA_PRUNING;
+    private AI_Algorithm m_ai_algorithm = AI_Algorithm.ALPHA_BETA_PRUNING_TRANSPOSITION_TABLE;
     //private AI_Algorithm m_ai_algorithm = AI_Algorithm.MINIMAX_SHORTEST_WAY;
 
     public static GlobalStorage GetInstance()
@@ -57,5 +57,6 @@ public class GlobalStorage
         MINIMAX,
         MINIMAX_SHORTEST_WAY,
         ALPHA_BETA_PRUNING,
+        ALPHA_BETA_PRUNING_TRANSPOSITION_TABLE
     }
 }
