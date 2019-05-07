@@ -59,6 +59,11 @@ public class AlphaBetaPruningSolver : TicTacToeSolver
                 }
             }
 
+            if (freeIndexes.Count == 0)
+            {
+                return -1;
+            }
+
             Debug.Log("No suitable move was found. Choosing random one");
             return freeIndexes[new System.Random().Next(freeIndexes.Count - 1)];
         }
