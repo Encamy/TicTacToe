@@ -123,6 +123,10 @@ public class GameController : MonoBehaviour
             {
                 m_solver = new AlphaBetaPruningTranspositionSolver(m_cells.Length);
             }
+            else if (GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.ALPHA_BETA_PRUNING_TRANSPOSITION_TABLE_PARALLEL)
+            {
+                m_solver = new AlphaBetaPruningTranspositionParallelSolver(m_cells.Length);
+            }
             else
             {
                 Debug.LogError("Invalid AI solver");

@@ -31,6 +31,7 @@ public class MiniMaxSolver : TicTacToeSolver
             double value = minimax(availableMoves[i], 0, false, AI_player);
             if (value > bestValue)
             {
+
                 bestValue = value;
                 move = indexes[i];
             }
