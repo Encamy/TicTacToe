@@ -10,6 +10,7 @@ public class TranspositionTable
 {
     private ulong[][] m_ZobristTable;
     private Dictionary<ulong, double> m_transpositions;
+    private object m_lock = new object();
 
     public TranspositionTable(int boardSize)
     {
@@ -28,23 +29,29 @@ public class TranspositionTable
 
     public double GetTransposition(Player[] board)
     {
-        ulong hash = computeHash(board);
-        if (m_transpositions.ContainsKey(hash))
+        lock (m_lock)
         {
-            return m_transpositions[hash];
-        }
-        else
-        {
-            return -1;
+            ulong hash = computeHash(board);
+            if (m_transpositions.ContainsKey(hash))
+            {
+                return m_transpositions[hash];
+            }
+            else
+            {
+                return -1;
+            }
         }
     }
 
     public void AddTransposotion(Player[] board, double score)
     {
-        ulong hash = computeHash(board);
-        if (!m_transpositions.ContainsKey(hash))
+        lock(m_lock)
         {
-            m_transpositions.Add(hash, score);
+            ulong hash = computeHash(board);
+            if (!m_transpositions.ContainsKey(hash))
+            {
+                m_transpositions.Add(hash, score);
+            }
         }
     }
 

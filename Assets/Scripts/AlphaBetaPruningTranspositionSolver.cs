@@ -17,6 +17,12 @@ public class AlphaBetaPruningTranspositionSolver : AlphaBetaPruningSolver
         m_transpositionTable = new TranspositionTable(boardSize);
     }
 
+    public AlphaBetaPruningTranspositionSolver(int boardSize, int maxDepth)
+    {
+        m_transpositionTable = new TranspositionTable(boardSize);
+        m_maxDepthIterations = maxDepth;
+    }
+
     protected override double alphabeta(Player[] board, int depth, bool isMaximizing, Player AI_player, double alpha, double beta)
     {
         double precalculatedScore = m_transpositionTable.GetTransposition(board);
