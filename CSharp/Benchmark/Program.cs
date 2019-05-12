@@ -68,7 +68,7 @@ namespace Benchmark
         }
 
         [Benchmark]
-        public void AlphaBeta5x5()
+        public void AlphaBeta5x5_depth4()
         {
             Player[] board = new Player[25]
             {

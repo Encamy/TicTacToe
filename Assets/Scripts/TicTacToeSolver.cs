@@ -79,47 +79,34 @@ public abstract class TicTacToeSolver
         {
             Assert.AreEqual(board.Length, 25);
             
-            HashSet<Player> line = new HashSet<Player>();
             // check horizontal
-            for (int horizontalIndex = 0; horizontalIndex < 5; horizontalIndex++)
+            for (int i = 0; i < 5; i++)
             {
-                for (int i = 0; i < 2; i++)
+                for (int j = 0; j < 2; j++)
                 {
-                    for (int j = 0; j < 4; j++)
+                    if (IsSame(board, (i * 5) + j, (i * 5) + j + 1, (i * 5) + j + 2, (i * 5) + j + 3))
                     {
-                        line.Add(board[5 * horizontalIndex + i + j]);
-                    }
-
-                    if (line.All(x => x == Player.XPlayer) || line.All(x => x == Player.OPlayer))
-                    {
-                        winningPlayer = line.ElementAt(0);
+                        winningPlayer = board[(i * 5) + j];
                         return true;
                     }
-                    line.Clear();
                 }
             }
 
-            line.Clear();
-
-            for (int verticalIndex = 0; verticalIndex < 5; verticalIndex++)
+            // check vertical
+            for (int i = 0; i < 5; i++)
             {
-                for (int i = 0; i < 2; i++)
+                for (int j = 0; j < 2; j++)
                 {
-                    for (int j = 0; j < 4; j++)
+                    if (IsSame(board, 5 * j + i, 5 * (j + 1) + i, 5 * (j + 2) + i, 5 * (j + 3) + i))
                     {
-                        line.Add(board[verticalIndex + (i + j) * 5]);
-                    }
-
-                    if (line.All(x => x == Player.XPlayer) || line.All(x => x == Player.OPlayer))
-                    {
-                        winningPlayer = line.ElementAt(0);
+                        winningPlayer = board[5 * j + i];
                         return true;
                     }
-                    line.Clear();
                 }
             }
 
-            //check diagonals
+
+            // check diagonals
             if ((board[0] == board[6] && board[6] == board[12] && board[12] == board[18] && board[12] != Player.None) ||
                 (board[6] == board[12] && board[12] == board[18] && board[18] == board[24] && board[12] != Player.None) ||
                 (board[20] == board[16] && board[16] == board[12] && board[12] == board[8] && board[12] != Player.None) ||
@@ -159,5 +146,10 @@ public abstract class TicTacToeSolver
         }
 
         throw new NotImplementedException();
+    }
+
+    private static bool IsSame(Player[] board, int a, int b, int c, int d)
+    {
+        return board[a] == board[b] && board[b] == board[c] && board[c] == board[d] && board[a] != Player.None;
     }
 }
