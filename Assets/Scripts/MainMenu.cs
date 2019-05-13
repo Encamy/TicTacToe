@@ -10,6 +10,7 @@ public class MainMenu : MonoBehaviour
     private EnemyMode m_enemymode = EnemyMode.PvP;
 
     public Toggle m_3x3Button;
+    public Toggle m_5x5Button;
     public Toggle m_7x7Button;
 
     public Toggle m_PvPButton;
@@ -21,6 +22,9 @@ public class MainMenu : MonoBehaviour
         {
             case GameMode.GameMode3x3:
                 m_3x3Button.isOn = true;
+                break;
+            case GameMode.GameMode5x5:
+                m_5x5Button.isOn = true;
                 break;
             case GameMode.GameMode7x7:
                 m_7x7Button.isOn = true;
@@ -55,6 +59,9 @@ public class MainMenu : MonoBehaviour
             case GameMode.GameMode3x3:
                 SceneManager.LoadScene("3x3");
                 break;
+            case GameMode.GameMode5x5:
+                SceneManager.LoadScene("5x5");
+                break;
             case GameMode.GameMode7x7:
                 SceneManager.LoadScene("7x7");
                 break;
@@ -66,6 +73,10 @@ public class MainMenu : MonoBehaviour
         if (button == m_3x3Button)
         {
             m_gamemode = GameMode.GameMode3x3;
+        }
+        else if (button == m_5x5Button)
+        {
+            m_gamemode = GameMode.GameMode5x5;
         }
         else if (button == m_7x7Button)
         {
@@ -90,8 +101,8 @@ public class MainMenu : MonoBehaviour
     public enum GameMode
     {
         GameMode3x3,
-        GameMode7x7,
         GameMode5x5,
+        GameMode7x7,
     }
 
     public enum EnemyMode
