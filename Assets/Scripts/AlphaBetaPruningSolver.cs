@@ -23,7 +23,8 @@ public class AlphaBetaPruningSolver : TicTacToeSolver
                 m_fieldSize = 25;
                 break;
             case GameMode.GameMode7x7:
-                throw new NotImplementedException();
+                m_fieldSize = 49;
+                break;
         }
 
         m_gamemode = gamemode;
