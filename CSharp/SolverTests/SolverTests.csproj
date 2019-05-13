@@ -52,6 +52,7 @@
     <Compile Include="SolverTests_3x3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolverTests_5x5.cs" />
+    <Compile Include="SolverTests_7x7.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
