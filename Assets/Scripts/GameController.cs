@@ -74,7 +74,8 @@ public class GameController : MonoBehaviour
                 m_cells = new Player[25];
                 break;
             case GameMode.GameMode7x7:
-                throw new NotImplementedException();
+                m_cells = new Player[49];
+                break;
         }
 
         for (int i = 0; i < m_cells.Length; i++)
