@@ -7,9 +7,9 @@ using static MainMenu;
 public class GlobalStorage
 {
     private static GlobalStorage m_instance;
-    private GameMode m_gamemode = GameMode.GameMode5x5;
+    private GameMode m_gamemode = GameMode.GameMode7x7;
     private EnemyMode m_enemymode = EnemyMode.PvE;
-    private AI_Algorithm m_ai_algorithm = AI_Algorithm.ALPHA_BETA_PRUNING_TRANSPOSITION_TABLE;
+    private AI_Algorithm m_ai_algorithm = AI_Algorithm.ALPHA_BETA_PRUNING_TRANSPOSITION_TABLE_PARALLEL;
 
     public static GlobalStorage GetInstance()
     {

@@ -19,9 +19,8 @@ public class TranspositionTable
 
         for (int i = 0; i < boardSize; i++)
         {
-            m_ZobristTable[i] = new ulong[3];
+            m_ZobristTable[i] = new ulong[2];
 
-            m_ZobristTable[i][(int)Player.None] = generateHash();
             m_ZobristTable[i][(int)Player.OPlayer] = generateHash();
             m_ZobristTable[i][(int)Player.XPlayer] = generateHash();
         }
@@ -61,7 +60,10 @@ public class TranspositionTable
 
         for (int i = 0; i < board.Length; i++)
         {
-            hash ^= m_ZobristTable[i][(int)board[i]];
+            if (board[i] != Player.None)
+            {
+                hash ^= m_ZobristTable[i][(int)board[i]];
+            }
         }
 
         return hash;
@@ -69,12 +71,15 @@ public class TranspositionTable
 
     private ulong generateHash()
     {
-        byte[] bytes = new byte[64];
-        using (var rng = new RNGCryptoServiceProvider())
-        {
-            rng.GetBytes(bytes);
-        }
+        byte[] byteContent = Encoding.Unicode.GetBytes(Guid.NewGuid().ToString());
+        SHA256 hash = new SHA256CryptoServiceProvider();
+        byte[] hashText = hash.ComputeHash(byteContent);
 
-        return BitConverter.ToUInt64(bytes, 0);
+        ulong hashCodeStart = BitConverter.ToUInt64(hashText, 0);
+        ulong hashCodeMedium = BitConverter.ToUInt64(hashText, 8);
+        ulong hashCodeEnd = BitConverter.ToUInt64(hashText, 24);
+        ulong hashCode = hashCodeStart ^ hashCodeMedium ^ hashCodeEnd;
+
+        return hashCode;
     }
 }
