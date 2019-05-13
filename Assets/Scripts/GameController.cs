@@ -126,7 +126,7 @@ public class GameController : MonoBehaviour
             }
             else if (GlobalStorage.GetInstance().GetAI_Algorithm() == GlobalStorage.AI_Algorithm.ALPHA_BETA_PRUNING_TRANSPOSITION_TABLE_PARALLEL)
             {
-                m_solver = new AlphaBetaPruningTranspositionParallelSolver(m_cells.Length);
+                m_solver = new AlphaBetaPruningTranspositionParallelSolver(m_cells.Length, 6);
             }
             else
             {

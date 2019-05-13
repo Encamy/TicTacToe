@@ -9,8 +9,8 @@ using static MainMenu;
 
 public abstract class TicTacToeSolver
 {
-    protected readonly int WinValue = 50;
-    protected readonly int LoseValue = -50;
+    protected readonly int WinValue = 100;
+    protected readonly int LoseValue = -100;
     protected readonly int DrawValue = 2;
     abstract public int GetNextMove(Player[] ticTacToeSpaces, Player AI_player, GameMode gamemode);
 

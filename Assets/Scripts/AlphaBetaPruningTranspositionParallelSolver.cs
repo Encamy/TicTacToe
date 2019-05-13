@@ -33,7 +33,8 @@ public class AlphaBetaPruningTranspositionParallelSolver : AlphaBetaPruningTrans
                 m_fieldSize = 25;
                 break;
             case GameMode.GameMode7x7:
-                throw new NotImplementedException();
+                m_fieldSize = 49;
+                break;
         }
 
         m_gamemode = gamemode;
@@ -44,14 +45,18 @@ public class AlphaBetaPruningTranspositionParallelSolver : AlphaBetaPruningTrans
         double bestValue = LoseValue * 2;
         int move = -1;
 
-        Parallel.ForEach(availableMoves, (currentMove) => {
-            double value = alphabeta(currentMove, 0, false, AI_player, Double.NegativeInfinity, Double.PositiveInfinity);
-            if (value > bestValue)
-            {
-                bestValue = value;
-                move = indexes[availableMoves.IndexOf(currentMove)];
+        Parallel.ForEach(
+            availableMoves, 
+            new ParallelOptions { MaxDegreeOfParallelism = 4 },
+            (currentMove) => {
+                double value = alphabeta(currentMove, 0, false, AI_player, Double.NegativeInfinity, Double.PositiveInfinity);
+                if (value > bestValue)
+                {
+                    bestValue = value;
+                    move = indexes[availableMoves.IndexOf(currentMove)];
+                }
             }
-        });
+        );
 
         if (move == -1)
         {
