@@ -11,6 +11,12 @@ public class AlphaBetaPruningSolver : TicTacToeSolver
     protected int m_fieldSize = 9;
     protected GameMode m_gamemode;
     protected int m_maxDepthIterations = 4; // -1 no limitations
+    protected bool m_improveAvailableMoves;
+
+    public AlphaBetaPruningSolver(bool improveAvailableMoves = false)
+    {
+        m_improveAvailableMoves = improveAvailableMoves;
+    }
 
     public override int GetNextMove(Player[] ticTacToeSpaces, Player AI_player, GameMode gamemode)
     {
@@ -149,11 +155,67 @@ public class AlphaBetaPruningSolver : TicTacToeSolver
         }
         else
         {
+            int size = (int)Math.Round(Math.Sqrt(board.Length));
+
+            List<int> truncatedMoves = new List<int>();
+            if (m_improveAvailableMoves)
+            {
+                for (int i = 0; i < board.Length; i++)
+                {
+                    if (board[i] != Player.None)
+                    {
+                        int xIndex = i / size;
+                        int yIndex = i % size;
+                        int index = 0;
+
+                        if (IsCorrectIndex(xIndex - 1, yIndex, size, out index))
+                        {
+                            truncatedMoves.Add(index);
+                        }
+
+                        if (IsCorrectIndex(xIndex - 1, yIndex - 1, size, out index))
+                        {
+                            truncatedMoves.Add(index);
+                        }
+
+                        if (IsCorrectIndex(xIndex, yIndex - 1, size, out index))
+                        {
+                            truncatedMoves.Add(index);
+                        }
+
+                        if (IsCorrectIndex(xIndex + 1, yIndex - 1, size, out index))
+                        {
+                            truncatedMoves.Add(index);
+                        }
+
+                        if (IsCorrectIndex(xIndex + 1, yIndex, size, out index))
+                        {
+                            truncatedMoves.Add(index);
+                        }
+
+                        if (IsCorrectIndex(xIndex + 1, yIndex + 1, size, out index))
+                        {
+                            truncatedMoves.Add(index);
+                        }
+
+                        if (IsCorrectIndex(xIndex, yIndex + 1, size, out index))
+                        {
+                            truncatedMoves.Add(index);
+                        }
+                        
+                        if (IsCorrectIndex(xIndex - 1, yIndex + 1, size, out index))
+                        {
+                            truncatedMoves.Add(index);
+                        }
+
+                        
+                    }
+                }
+            }
+
             int d = 0; // current direction; 0=RIGHT, 1=DOWN, 2=LEFT, 3=UP
             int c = 0; // counter
             int s = 1; // chain size
-
-            int size = (int)Math.Round(Math.Sqrt(board.Length));
 
             // starting point
             int x = ((int)Math.Floor(size / 2.0));
@@ -167,15 +229,18 @@ public class AlphaBetaPruningSolver : TicTacToeSolver
                 {
                     for (int i = 0; i < s; i++)
                     {
-                        if (board[x * size + y] == Player.None)
+                        if (m_improveAvailableMoves && truncatedMoves.Contains(x * size + y) || !m_improveAvailableMoves)
                         {
-                            Player[] movesElement = new Player[m_fieldSize];
-                            board.CopyTo(movesElement, 0);
-                            movesElement[x * size + y] = AI_player;
-                            moves.Add(movesElement);
+                            if (board[x * size + y] == Player.None)
+                            {
+                                Player[] movesElement = new Player[m_fieldSize];
+                                board.CopyTo(movesElement, 0);
+                                movesElement[x * size + y] = AI_player;
+                                moves.Add(movesElement);
 
-                            choosenIndex[currentSuccessMove] = x * size + y;
-                            currentSuccessMove++;
+                                choosenIndex[currentSuccessMove] = x * size + y;
+                                currentSuccessMove++;
+                            }
                         }
 
                         c++;
@@ -195,6 +260,13 @@ public class AlphaBetaPruningSolver : TicTacToeSolver
         }
 
         return moves;
+    }
+
+    private bool IsCorrectIndex(int x, int y, int lineSize, out int index)
+    {
+        index = y * lineSize + x;
+
+        return x >= 0 && y >= 0 && x < lineSize && y < lineSize && index > 0 && index < lineSize * lineSize;
     }
 
     protected virtual int CalculateValue(Player winner, Player AI_player, int depth)

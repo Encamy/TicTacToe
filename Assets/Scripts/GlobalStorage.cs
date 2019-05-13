@@ -9,7 +9,7 @@ public class GlobalStorage
     private static GlobalStorage m_instance;
     private GameMode m_gamemode = GameMode.GameMode7x7;
     private EnemyMode m_enemymode = EnemyMode.PvE;
-    private AI_Algorithm m_ai_algorithm = AI_Algorithm.ALPHA_BETA_PRUNING_TRANSPOSITION_TABLE_PARALLEL;
+    private AI_Algorithm m_ai_algorithm = AI_Algorithm.ALPHA_BETA_PRUNING_TRANSPOSITION_TABLE;
 
     public static GlobalStorage GetInstance()
     {
