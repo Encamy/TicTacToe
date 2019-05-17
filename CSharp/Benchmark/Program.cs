@@ -68,7 +68,7 @@ namespace Benchmark
         }
 
         [Benchmark]
-        public void AlphaBeta5x5_depth4()
+        public void AlphaBeta5x5_depth5()
         {
             Player[] board = new Player[25]
             {
@@ -80,22 +80,6 @@ namespace Benchmark
             };
 
             TicTacToeSolver solver = new AlphaBetaPruningSolver();
-            solver.GetNextMove(board, Player.XPlayer, MainMenu.GameMode.GameMode5x5);
-        }
-
-        [Benchmark]
-        public void AlphaBetaTransposition5x5_depth4()
-        {
-            Player[] board = new Player[25]
-            {
-                Player.None, Player.None, Player.None, Player.None, Player.None,
-                Player.None, Player.None, Player.None, Player.None, Player.None,
-                Player.None, Player.None, Player.None, Player.None, Player.None,
-                Player.None, Player.None, Player.None, Player.None, Player.None,
-                Player.None, Player.None, Player.None, Player.None, Player.None
-            };
-
-            TicTacToeSolver solver = new AlphaBetaPruningTranspositionSolver(board.Length, 4);
             solver.GetNextMove(board, Player.XPlayer, MainMenu.GameMode.GameMode5x5);
         }
 
@@ -111,7 +95,7 @@ namespace Benchmark
                 Player.None, Player.None, Player.None, Player.None, Player.None
             };
 
-            TicTacToeSolver solver = new AlphaBetaPruningTranspositionSolver(board.Length, 5);
+            TicTacToeSolver solver = new AlphaBetaPruningTranspositionSolver(board.Length, 4);
             solver.GetNextMove(board, Player.XPlayer, MainMenu.GameMode.GameMode5x5);
         }
 
@@ -127,12 +111,12 @@ namespace Benchmark
                 Player.None, Player.None, Player.None, Player.None, Player.None
             };
 
-            TicTacToeSolver solver = new AlphaBetaPruningTranspositionSolver(board.Length, 6);
+            TicTacToeSolver solver = new AlphaBetaPruningTranspositionSolver(board.Length, 5);
             solver.GetNextMove(board, Player.XPlayer, MainMenu.GameMode.GameMode5x5);
         }
 
         [Benchmark]
-        public void AlphaBetaTranspositionParallel5x5_depth5()
+        public void AlphaBetaTransposition5x5_depth7()
         {
             Player[] board = new Player[25]
             {
@@ -143,7 +127,7 @@ namespace Benchmark
                 Player.None, Player.None, Player.None, Player.None, Player.None
             };
 
-            TicTacToeSolver solver = new AlphaBetaPruningTranspositionParallelSolver(board.Length, 5);
+            TicTacToeSolver solver = new AlphaBetaPruningTranspositionSolver(board.Length, 6);
             solver.GetNextMove(board, Player.XPlayer, MainMenu.GameMode.GameMode5x5);
         }
 
@@ -159,12 +143,28 @@ namespace Benchmark
                 Player.None, Player.None, Player.None, Player.None, Player.None
             };
 
+            TicTacToeSolver solver = new AlphaBetaPruningTranspositionParallelSolver(board.Length, 5);
+            solver.GetNextMove(board, Player.XPlayer, MainMenu.GameMode.GameMode5x5);
+        }
+
+        [Benchmark]
+        public void AlphaBetaTranspositionParallel5x5_depth7()
+        {
+            Player[] board = new Player[25]
+            {
+                Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None
+            };
+
             TicTacToeSolver solver = new AlphaBetaPruningTranspositionParallelSolver(board.Length, 6);
             solver.GetNextMove(board, Player.XPlayer, MainMenu.GameMode.GameMode5x5);
         }
 
         [Benchmark]
-        public void AlphaBeta7x7_depth4()
+        public void AlphaBeta7x7_depth5()
         {
             Player[] board = new Player[49]
             {
@@ -178,24 +178,6 @@ namespace Benchmark
             };
 
             TicTacToeSolver solver = new AlphaBetaPruningSolver();
-            solver.GetNextMove(board, Player.XPlayer, MainMenu.GameMode.GameMode7x7);
-        }
-
-        [Benchmark]
-        public void AlphaBetaTransposition7x7_depth4()
-        {
-            Player[] board = new Player[49]
-            {
-                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
-                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
-                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
-                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
-                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
-                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
-                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None
-            };
-
-            TicTacToeSolver solver = new AlphaBetaPruningTranspositionSolver(board.Length, 4);
             solver.GetNextMove(board, Player.XPlayer, MainMenu.GameMode.GameMode7x7);
         }
 
@@ -213,12 +195,12 @@ namespace Benchmark
                 Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None
             };
 
-            TicTacToeSolver solver = new AlphaBetaPruningTranspositionSolver(board.Length, 5);
+            TicTacToeSolver solver = new AlphaBetaPruningTranspositionSolver(board.Length, 4);
             solver.GetNextMove(board, Player.XPlayer, MainMenu.GameMode.GameMode7x7);
         }
 
         [Benchmark]
-        public void AlphaBetaTranspositionParallel7x7_depth4()
+        public void AlphaBetaTransposition7x7_depth6()
         {
             Player[] board = new Player[49]
             {
@@ -231,7 +213,43 @@ namespace Benchmark
                 Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None
             };
 
-            TicTacToeSolver solver = new AlphaBetaPruningTranspositionParallelSolver(board.Length, 4);
+            TicTacToeSolver solver = new AlphaBetaPruningTranspositionSolver(board.Length, 5);
+            solver.GetNextMove(board, Player.XPlayer, MainMenu.GameMode.GameMode7x7);
+        }
+
+        [Benchmark]
+        public void AlphaBetaTransposition7x7_depth5_improvedMoves()
+        {
+            Player[] board = new Player[49]
+            {
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None
+            };
+
+            TicTacToeSolver solver = new AlphaBetaPruningTranspositionSolver(board.Length, 4, true);
+            solver.GetNextMove(board, Player.XPlayer, MainMenu.GameMode.GameMode7x7);
+        }
+
+        [Benchmark]
+        public void AlphaBetaTransposition7x7_depth6_improvedMoves()
+        {
+            Player[] board = new Player[49]
+            {
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None
+            };
+
+            TicTacToeSolver solver = new AlphaBetaPruningTranspositionSolver(board.Length, 5, true);
             solver.GetNextMove(board, Player.XPlayer, MainMenu.GameMode.GameMode7x7);
         }
 
@@ -249,16 +267,34 @@ namespace Benchmark
                 Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None
             };
 
+            TicTacToeSolver solver = new AlphaBetaPruningTranspositionParallelSolver(board.Length, 4);
+            solver.GetNextMove(board, Player.XPlayer, MainMenu.GameMode.GameMode7x7);
+        }
+
+        [Benchmark]
+        public void AlphaBetaTranspositionParallel7x7_depth6()
+        {
+            Player[] board = new Player[49]
+            {
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None,
+                Player.None, Player.None, Player.None, Player.None, Player.None, Player.None, Player.None
+            };
+
             TicTacToeSolver solver = new AlphaBetaPruningTranspositionParallelSolver(board.Length, 5);
             solver.GetNextMove(board, Player.XPlayer, MainMenu.GameMode.GameMode7x7);
         }
     }
-
+    
     class Program
     {
         static void Main(string[] args)
         {
-            //new AlgorithmBenchmark().AlphaBetaTranspositionParallel5x5_depth5();
+            //new AlgorithmBenchmark().AlphaBetaTranspositionParallel5x5_depth6();
             BenchmarkRunner.Run<AlgorithmBenchmark>();
         }
     }

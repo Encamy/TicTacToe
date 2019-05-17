@@ -55,6 +55,11 @@ public class AlphaBetaPruningSolver : TicTacToeSolver
             }
         }
 
+        if (availableMoves.Count() == 0)
+        {
+            return 25;
+        }
+
         if (move == -1)
         {
             List<int> freeIndexes = new List<int>();
@@ -71,7 +76,7 @@ public class AlphaBetaPruningSolver : TicTacToeSolver
                 return -1;
             }
 
-            Debug.Log("No suitable move was found. Choosing random one");
+            //Debug.Log("No suitable move was found. Choosing random one");
             return freeIndexes[new System.Random().Next(freeIndexes.Count - 1)];
         }
 
